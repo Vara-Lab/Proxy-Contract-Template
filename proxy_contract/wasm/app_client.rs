@@ -509,17 +509,3 @@ pub mod traits {
         ) -> impl Query<Output = ProxyTrafficLightCallerEvent, Args = Self::Args>;
     }
 }
-
-#[cfg(feature = "with_mocks")]
-#[cfg(not(target_arch = "wasm32"))]
-extern crate std;
-
-#[cfg(feature = "with_mocks")]
-#[cfg(not(target_arch = "wasm32"))]
-pub mod mockall {
-    use super::*;
-    use sails_rs::mockall::*;
-    mock! { pub PingCaller<A> {} #[allow(refining_impl_trait)] #[allow(clippy::type_complexity)] impl<A> traits::PingCaller for PingCaller<A> { type Args = A; fn call_ping (&mut self, ) -> MockCall<A, ProxyPingCallerEvent>;fn call_pong (&mut self, ) -> MockCall<A, ProxyPingCallerEvent>;fn call_all_calls (& self, ) -> MockQuery<A, ProxyPingCallerEvent>;fn call_last_who_call (& self, ) -> MockQuery<A, ProxyPingCallerEvent>; } }
-    mock! { pub Proxy<A> {} #[allow(refining_impl_trait)] #[allow(clippy::type_complexity)] impl<A> traits::Proxy for Proxy<A> { type Args = A; fn add_admin (&mut self, new_admin: ActorId,) -> MockCall<A, ProxyEvent>;fn change_ping_contract_id (&mut self, contract_id: ActorId,) -> MockCall<A, ProxyEvent>;fn change_traffic_light_contract_id (&mut self, contract_id: ActorId,) -> MockCall<A, ProxyEvent>;fn contracts_id (& self, ) -> MockQuery<A, ProxyEvent>; } }
-    mock! { pub TrafficLightCaller<A> {} #[allow(refining_impl_trait)] #[allow(clippy::type_complexity)] impl<A> traits::TrafficLightCaller for TrafficLightCaller<A> { type Args = A; fn call_green (&mut self, ) -> MockCall<A, ProxyTrafficLightCallerEvent>;fn call_red (&mut self, ) -> MockCall<A, ProxyTrafficLightCallerEvent>;fn call_yellow (&mut self, ) -> MockCall<A, ProxyTrafficLightCallerEvent>;fn call_traffic_light_state (& self, ) -> MockQuery<A, ProxyTrafficLightCallerEvent>; } }
-}
